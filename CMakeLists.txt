@@ -7,12 +7,11 @@ project(ArmCortexBase C CXX ASM)
 set(CMAKE_CXX_STANDARD 14)
 set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/LinkerScript.ld)
 
+
+if (CMAKE_CROSSCOMPILING)
 add_compile_options(
         -mfloat-abi=${MFLOAT}
         -mcpu=${MCPU} -mthumb -mthumb-interwork
-        -ffunction-sections -fdata-sections -fno-common -fmessage-length=0 -fno-exceptions
-        -Wall -Wno-unused-variable -Wno-unused-function
-        -Og
 )
 
 add_link_options(
@@ -21,14 +20,21 @@ add_link_options(
         --specs=nano.specs
         -T ${LINKER_SCRIPT}
 )
+endif ()
+
+add_compile_options(
+        -ffunction-sections -fdata-sections -fno-common -fmessage-length=0 -fno-exceptions
+        -Wall -Wno-unused-variable -Wno-unused-function
+        -Og
+)
+
 
 set(MCU_NAME stm32f042x6)
 add_definitions(-DSTM32F0)
 add_definitions(-DSTM32F042x6)
 
-
+if(CMAKE_CROSSCOMPILING)
+  add_subdirectory(app)
+endif()
 add_subdirectory(thirdparty)
-add_subdirectory(src)
-
-
-
+add_subdirectory(lib)

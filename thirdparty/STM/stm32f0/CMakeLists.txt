@@ -5,9 +5,9 @@ string(TOLOWER "${CONTENT_NAME}" lcName)
 
 
 FetchContent_Declare(${CONTENT_NAME}
-        GIT_REPOSITORY https://github.com/STMicroelectronics/cmsis_device_f0.git
-        GIT_TAG v2.3.5
-        GIT_SHALLOW ON
+    GIT_REPOSITORY https://github.com/STMicroelectronics/cmsis_device_f0.git
+    GIT_TAG v2.3.5
+    GIT_SHALLOW ON
 )
 
 FetchContent_GetProperties(${CONTENT_NAME})
@@ -20,8 +20,9 @@ endif ()
 set(SRC_DIR ${${lcName}_SOURCE_DIR})
 
 add_library(DeviceCMSIS
-         ${SRC_DIR}/Source/Templates/system_stm32f0xx.c
-         ${SRC_DIR}/Source/Templates/gcc/startup_${MCU_NAME}.s)
+    ${SRC_DIR}/Source/Templates/system_stm32f0xx.c
+    ${SRC_DIR}/Source/Templates/gcc/startup_${MCU_NAME}.s
+)
 
 target_include_directories(DeviceCMSIS PUBLIC ${SRC_DIR}/Include)
 

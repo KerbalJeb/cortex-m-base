@@ -1,0 +1,6 @@
+[submodule "extern/tinyusb"]
+	path = extern/tinyusb
+	url = ../../hathach/tinyusb.git
+[submodule "thirdparty/googletest"]
+	path = thirdparty/googletest
+	url = ../../google/googletest.git
