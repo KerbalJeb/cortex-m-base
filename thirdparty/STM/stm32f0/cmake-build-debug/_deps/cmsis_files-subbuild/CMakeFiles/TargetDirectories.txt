@@ -1,0 +1,3 @@
+C:/Users/Ben/Documents/Projects/ArmCortexBase/thirdparty/STM/stm32f0/cmake-build-debug/_deps/cmsis_files-subbuild/CMakeFiles/cmsis_files-populate.dir
+C:/Users/Ben/Documents/Projects/ArmCortexBase/thirdparty/STM/stm32f0/cmake-build-debug/_deps/cmsis_files-subbuild/CMakeFiles/edit_cache.dir
+C:/Users/Ben/Documents/Projects/ArmCortexBase/thirdparty/STM/stm32f0/cmake-build-debug/_deps/cmsis_files-subbuild/CMakeFiles/rebuild_cache.dir

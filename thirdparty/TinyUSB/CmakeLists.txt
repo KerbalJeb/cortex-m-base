@@ -1,0 +1,37 @@
+include(FetchContent)
+set(LIB_NAME TinyUSB)
+set(CONTENT_NAME ${LIB_NAME}_FILES)
+set(TINYUSB_PORT_DIR portable/st/stm32_fsdev)
+string(TOLOWER ${CONTENT_NAME} CONTENT_NAME_LOWER)
+
+FetchContent_Declare(${CONTENT_NAME}
+    GIT_REPOSITORY https://github.com/hathach/tinyusb.git
+    GIT_TAG 0.9.0
+    GIT_SHALLOW ON
+    GIT_SUBMODULES_RECURSE OFF
+)
+
+FetchContent_GetProperties(${CONTENT_NAME})
+if (NOT ${CONTENT_NAME_LOWER}_POPULATED)
+    message(STATUS "Getting ${LIB_NAME}")
+    FetchContent_Populate(${CONTENT_NAME})
+endif()
+
+set(SRC_DIR ${${CONTENT_NAME_LOWER}_SOURCE_DIR})
+
+add_library(${LIB_NAME}
+        ${SRC_DIR}/src/class/cdc/cdc_device.c
+        ${SRC_DIR}/src/device/usbd.c
+        ${SRC_DIR}/src/device/usbd_control.c
+        ${SRC_DIR}/src/common/tusb_fifo.c
+        ${SRC_DIR}/src/tusb.c
+        ${SRC_DIR}/src/${TINYUSB_PORT_DIR}/dcd_stm32_fsdev.c
+)
+
+target_include_directories(${LIB_NAME}
+        PUBLIC ${SRC_DIR}/src
+        PUBLIC ${SRC_DIR}/src/${TINYUSB_PORT_DIR}
+        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+target_link_libraries(TinyUSB FreeRTOS DeviceCMSIS CMSIS_Core)

@@ -1,0 +1,37 @@
+include(FetchContent)
+set(LIB_NAME FreeRTOS)
+set(CONTENT_NAME ${LIB_NAME}_FILES)
+set(PORT_DIR portable/GCC/ARM_CM0)
+string(TOLOWER ${CONTENT_NAME} CONTENT_NAME_LOWER)
+
+FetchContent_Declare(${CONTENT_NAME}
+    GIT_REPOSITORY https://github.com/FreeRTOS/FreeRTOS-Kernel.git
+    GIT_TAG V10.4.3
+    GIT_SHALLOW ON
+)
+
+FetchContent_GetProperties(${CONTENT_NAME})
+if (NOT ${CONTENT_NAME_LOWER}_POPULATED)
+    message(STATUS "Getting ${LIB_NAME}")
+    FetchContent_Populate(${CONTENT_NAME})
+endif()
+
+set(SRC_DIR ${${CONTENT_NAME_LOWER}_SOURCE_DIR})
+
+add_library(${LIB_NAME}
+        ${SRC_DIR}/croutine.c
+        ${SRC_DIR}/event_groups.c
+        ${SRC_DIR}/list.c
+        ${SRC_DIR}/queue.c
+        ${SRC_DIR}/stream_buffer.c
+        ${SRC_DIR}/tasks.c
+        ${SRC_DIR}/timers.c
+        ${SRC_DIR}/${PORT_DIR}/port.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/FreeRTOSApp.c
+)
+
+target_include_directories(${LIB_NAME}
+        PUBLIC ${SRC_DIR}/include
+        PUBLIC ${SRC_DIR}/${PORT_DIR}
+        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+)
