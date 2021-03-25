@@ -1,3 +1,0 @@
-repository='https://github.com/STMicroelectronics/cmsis_device_f0.git'
-module=''
-tag='origin'
