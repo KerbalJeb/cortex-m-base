@@ -6,6 +6,7 @@
 /**********************************************************************
 * Includes
 **********************************************************************/
+#include <gpio_config.hpp>
 
 /**********************************************************************
 * Constant Expressions
@@ -19,4 +20,10 @@
 * Function Prototypes
 **********************************************************************/
 
-void gpio_init(int* data);
+namespace gpio
+{
+void configure (const gpio::ConfigStruct *config);
+void write (Pin gpio_pin, pin_state state);
+void toggle (Pin gpio_pin);
+pin_state read (Pin gpio_pin);
+}

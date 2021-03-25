@@ -34,25 +34,12 @@ _estack = ORIGIN(RAM) + LENGTH(RAM);	/* end of "RAM" Ram type memory */
 MEMORY
 {
   RAM    (xrw)     : ORIGIN = 0x20000000               , LENGTH = 6K
-  ROM    (rx)      : ORIGIN = 0x08000000               , LENGTH = 28K
-  DATA   (xrw)     : ORIGIN = ORIGIN(ROM) + LENGTH(ROM), LENGTH = 4K
+  ROM    (rx)      : ORIGIN = 0x08000000               , LENGTH = 32K
 }
 
 /* Sections */
 SECTIONS
 {
-  .flash_data :
-  {
-    . = ALIGN(1024);
-     KEEP(*(.config_data))
-    . = ALIGN(1024);
-    user_data_start = .;
-    KEEP(*(.page0));
-    . = ALIGN(1024);
-    KEEP(*(.page1));
-    . = ALIGN(1024);
-  } >DATA
-
   /* The startup code into "ROM" Rom type memory */
   .isr_vector :
   {

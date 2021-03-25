@@ -1,9 +1,17 @@
 
 if (NOT CMAKE_CROSSCOMPILING)
-    add_executable(DriverTests gpio_test.cpp)
+  project(unit_tests)
 
-    target_link_libraries(DriverTests
-        PRIVATE
-        gtest_main
-        peripheral_driver)
+  add_subdirectory(mocks)
+  add_executable (DriverTests gpio_test.cpp)
+
+
+  target_link_libraries (DriverTests
+                         PRIVATE
+                         gtest_main
+                         gmock_main
+                         CMSIS_Mocks
+                         peripheral_drivers
+                         )
+  add_test(NAME unit COMMAND ${CMAKE_CURRENT_BINARY_DIR}/DriverTests)
 endif ()

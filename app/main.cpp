@@ -1,25 +1,36 @@
 #include <cstdint>
 #include <FreeRTOS.h>
 #include <task.h>
+#include "gpio.hpp"
 
-[[noreturn]] void testTask(void *);
+[[noreturn]] void testTask (void *);
 constexpr std::size_t TestStackSize = configMINIMAL_STACK_SIZE;
-StaticTask_t testTaskBuffer;
-StackType_t  testTaskStack[TestStackSize];
+StaticTask_t          testTaskBuffer;
+StackType_t           testTaskStack[TestStackSize];
 
-int main()
+constexpr gpio::Pin SS_RELAY_PIN = gpio::Pin::B0;
+
+constexpr gpio::ConfigStruct config[]{
+    {SS_RELAY_PIN, gpio::Mode::output},
+    {gpio::Pin::END},
+};
+
+int main ()
 {
-    xTaskCreateStatic(testTask, "tst", TestStackSize, nullptr, 1, testTaskStack, &testTaskBuffer);
+  gpio::configure(config);
 
-    vTaskStartScheduler();
+  (void)xTaskCreateStatic (testTask, "tst", TestStackSize, nullptr, 1, testTaskStack, &testTaskBuffer);
 
-    return 0;
+  vTaskStartScheduler ();
+
+  return 0;
 }
 
-[[noreturn]] void testTask(void *)
+[[noreturn]] void testTask (void *)
 {
-    while (true)
-    {
-        vTaskDelay(pdMS_TO_TICKS(1000));
-    }
+  while (true)
+  {
+    gpio::toggle(SS_RELAY_PIN);
+    vTaskDelay (pdMS_TO_TICKS(1000));
+  }
 }

@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.17)
 project(ArmCortexBase C CXX ASM)
 
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 20)
 set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/LinkerScript.ld)
 
 

@@ -1,20 +1,6 @@
-include(FetchContent)
 set(LIB_NAME CMSIS_Core)
-set(CONTENT_NAME ${LIB_NAME}_FILES)
-string(TOLOWER ${CONTENT_NAME} CONTENT_NAME_LOWER)
 
-FetchContent_Declare(${CONTENT_NAME}
-    GIT_REPOSITORY https://github.com/ARM-software/CMSIS_5.git
-    GIT_TAG 5.7.0
-)
-
-FetchContent_GetProperties(${CONTENT_NAME})
-if (NOT ${CONTENT_NAME_LOWER}_POPULATED)
-    message(STATUS "Getting CMSIS5")
-    FetchContent_Populate(${CONTENT_NAME})
-endif ()
-
-set(SRC_DIR ${${CONTENT_NAME_LOWER}_SOURCE_DIR})
+set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
 add_library(${LIB_NAME} INTERFACE)
 target_include_directories(${LIB_NAME} INTERFACE ${SRC_DIR}/CMSIS/Core/Include)

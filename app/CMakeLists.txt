@@ -1,9 +1,8 @@
 add_executable(${PROJECT_NAME}.elf
         main.cpp
-#        startup_stm32f042x6.s
 )
 
-target_link_libraries(${PROJECT_NAME}.elf FreeRTOS TinyUSB DeviceCMSIS)
+target_link_libraries(${PROJECT_NAME}.elf FreeRTOS TinyUSB DeviceSystem peripheral_drivers)
 
 set(HEX_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.hex)
 set(BIN_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.bin)
