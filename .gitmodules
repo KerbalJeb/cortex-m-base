@@ -1,18 +1,18 @@
-[submodule "extern/tinyusb"]
-	path = extern/tinyusb
-	url = ../../hathach/tinyusb.git
 [submodule "thirdparty/googletest"]
 	path = thirdparty/googletest
-	url = ../../google/googletest.git
+	url = https://github.com/google/googletest.git
 [submodule "thirdparty\\CMSIS\\lib"]
 	path = thirdparty\\CMSIS\\lib
-	url = ../../ARM-software/CMSIS_5.git
+	url = https://github.com/ARM-software/CMSIS_5.git
 [submodule "thirdparty\\ST\\cmsis_device_f0"]
 	path = thirdparty\\ST\\cmsis_device_f0
-	url = ../../STMicroelectronics/cmsis_device_f0.git
+	url = .https://github.com/STMicroelectronics/cmsis_device_f0.git
 [submodule "thirdparty\\FreeRTOS\\lib"]
 	path = thirdparty\\FreeRTOS\\lib
-	url = ../../FreeRTOS/FreeRTOS-Kernel.git
+	url = https://github.com/FreeRTOS/FreeRTOS-Kernel.git
 [submodule "thirdparty\\TinyUSB\\lib"]
 	path = thirdparty\\TinyUSB\\lib
-	url = ../../hathach/tinyusb.git
+	url = https://github.com/hathach\tinyusb.git
+[submodule "thirdparty\\CMock\\lib"]
+	path = thirdparty\\CMock\\lib
+	url = https://github.com/ThrowTheSwitch/CMock.git
