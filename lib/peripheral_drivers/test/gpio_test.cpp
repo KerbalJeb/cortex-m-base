@@ -36,10 +36,10 @@ TEST_P(GpioInitTests, bit_set_test)
   auto config_struct = std::get<4> (params);
   auto reg           = std::get<5> (params);
 
-  const gpio::ConfigStruct config[]{config_struct, {gpio::Pin::END},};
+  const std::array config{config_struct};
 
   *reg = 0;
-  gpio::configure (config);
+  gpio::init (config.begin(), config.end());
   ASSERT_EQ(*reg, value << pos);
 }
 
@@ -53,25 +53,24 @@ TEST_P(GpioInitTests, bit_clear_test)
   auto config_struct = std::get<4> (params);
   auto reg           = std::get<5> (params);
 
-  const gpio::ConfigStruct config[]{config_struct, {gpio::Pin::END},};
+  const std::array config{config_struct};
 
   *reg = 0xFFFFFFFF;
-  gpio::configure (config);
+  gpio::init (config.begin (), config.end ());
   ASSERT_EQ(*reg, (0xFFFFFFFF & ~mask) | (value << pos));
 }
 
 TEST(GpioInitTests, multiple_pins_init)
 {
-  const gpio::ConfigStruct config[]{
-      {Pin::A0,  Mode::input,},
-      {Pin::A15, Mode::output,},
-      {Pin::B0,  Mode::input,},
-      {Pin::B7,  Mode::af_mode,},
-      {Pin::END},
+  const std::array config{
+      gpio::ConfigStruct {Pin::A0,  Mode::input,},
+      gpio::ConfigStruct {Pin::A15, Mode::output,},
+      gpio::ConfigStruct {Pin::B0,  Mode::input,},
+      gpio::ConfigStruct {Pin::B7,  Mode::af_mode,},
   };
 
   MockRegisters = PeripheralRegisters{};
-  gpio::configure (config);
+  gpio::init (config.begin(), config.end());
 
   ASSERT_THAT((std::vector{MockRegisters.gpioa.MODER, MockRegisters.gpiob.MODER}),
               testing::ElementsAre (

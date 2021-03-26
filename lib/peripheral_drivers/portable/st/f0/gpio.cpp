@@ -4,20 +4,12 @@
 /**********************************************************************
 * Includes
 **********************************************************************/
+
+
 #include <gpio.hpp>
 #include <stm32f0xx.h>
 #include "volatile_op.hpp"
-/**********************************************************************
-* Module Preprocessor Constants
-**********************************************************************/
 
-/**********************************************************************
-* Module Preprocessor Macros
-**********************************************************************/
-
-/**********************************************************************
-* Module Typedefs
-**********************************************************************/
 namespace
 {
 
@@ -33,13 +25,8 @@ const GpioPortInfo ports[]{
 };
 }
 
-/*********************************************************************
-* Module Variable Definitions
-**********************************************************************/
 
-/**********************************************************************
-* Function Prototypes
-**********************************************************************/
+
 namespace
 {
 template<typename T>
@@ -50,59 +37,27 @@ inline void store_in_gpio_reg (T value, volatile uint32_t *reg, uint32_t mask, u
   r |= static_cast<const uint32_t>(value) << offset;
   volatile_store (reg, r);
 }
+
+inline auto get_port_info(gpio::Pin pin)
+{
+  auto pin_number = static_cast<const uint32_t>(pin);
+  auto port_idx   = pin_number / pins_per_port;
+
+  return ports[port_idx];
+}
+
+inline auto get_pin_idx(gpio::Pin pin)
+{
+  auto pin_number = static_cast<const uint32_t>(pin);
+  auto pin_idx    = pin_number % pins_per_port;
+  return pin_idx;
+}
+
 }
 /**********************************************************************
 * Function Definitions
 **********************************************************************/
 
-/**
- * @brief Initiates the gpio pins given in the configuration table
- * @param config A configuration table that
- */
-void gpio::configure (const gpio::ConfigStruct *config)
-{
-  while (config->pin != gpio::Pin::END)
-  {
-    auto pin_number = static_cast<const uint32_t>(config->pin);
-    auto pin_idx    = pin_number % pins_per_port;
-    auto port_idx   = pin_number / pins_per_port;
-
-    auto port_config = ports[port_idx];
-    auto PORT        = port_config.port;
-
-    /* Enable Clock */
-    auto ahbenr = volatile_load (&RCC->AHBENR);
-    ahbenr |= port_config.ahb_clk_enable_bit;
-    volatile_store (&RCC->AHBENR, ahbenr);
-
-    /* Set Configuration */
-
-    store_in_gpio_reg (config->mode, &PORT->MODER, 0b11, 2 * pin_idx);
-    store_in_gpio_reg (config->pull_mode, &PORT->PUPDR, 0b11, 2 * pin_idx);
-
-    /* Set to highest speed */
-    store_in_gpio_reg (0x3, &PORT->OSPEEDR, 0b11, 2 * pin_idx);
-    store_in_gpio_reg (config->initial_state, &PORT->ODR, 0b1, pin_idx);
-    store_in_gpio_reg (config->output_mode, &PORT->OTYPER, 0b1, pin_idx);
-
-    /* Set Alternate Function Mode */
-
-    if (config->mode == Mode::af_mode)
-    {
-      uint32_t af_register_idx = pin_idx / 8;
-      uint32_t af_offset       = pin_idx % 8;
-
-      auto r = volatile_load (&PORT->AFR[af_register_idx]);
-
-      r &= ~(0b1111 << af_offset * 4);
-      r |= static_cast<const uint32_t>(config->alternate_function) << af_offset * 4;
-
-      volatile_store (&PORT->AFR[af_register_idx], r);
-    }
-
-    config++;
-  }
-}
 void gpio::write (gpio::Pin gpio_pin, gpio::pin_state state)
 {
   auto pin_number  = static_cast<const uint32_t>(gpio_pin);
@@ -144,4 +99,41 @@ void gpio::toggle (gpio::Pin gpio_pin)
   auto odr = volatile_load(&PORT->ODR);
   odr ^= 1 << pin_idx;
   volatile_store(&PORT->ODR, odr);
+}
+void gpio::configure_pin (const gpio::ConfigStruct &config)
+{
+  auto pin_idx    = get_pin_idx(config.pin);
+  auto port_config = get_port_info(config.pin);
+
+  auto PORT        = port_config.port;
+
+  /* Enable Clock */
+  auto ahbenr = volatile_load (&RCC->AHBENR);
+  ahbenr |= port_config.ahb_clk_enable_bit;
+  volatile_store (&RCC->AHBENR, ahbenr);
+
+  /* Set Configuration */
+
+  store_in_gpio_reg (config.mode, &PORT->MODER, 0b11, 2 * pin_idx);
+  store_in_gpio_reg (config.pull_mode, &PORT->PUPDR, 0b11, 2 * pin_idx);
+
+  /* Set to highest speed */
+  store_in_gpio_reg (0x3, &PORT->OSPEEDR, 0b11, 2 * pin_idx);
+  store_in_gpio_reg (config.initial_state, &PORT->ODR, 0b1, pin_idx);
+  store_in_gpio_reg (config.output_mode, &PORT->OTYPER, 0b1, pin_idx);
+
+  /* Set Alternate Function Mode */
+
+  if (config.mode == Mode::af_mode)
+  {
+    uint32_t af_register_idx = pin_idx / 8;
+    uint32_t af_offset       = pin_idx % 8;
+
+    auto r = volatile_load (&PORT->AFR[af_register_idx]);
+
+    r &= ~(0b1111 << af_offset * 4);
+    r |= static_cast<const uint32_t>(config.alternate_function) << af_offset * 4;
+
+    volatile_store (&PORT->AFR[af_register_idx], r);
+  }
 }

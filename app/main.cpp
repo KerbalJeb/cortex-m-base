@@ -1,4 +1,4 @@
-#include <cstdint>
+#include <array>
 #include <FreeRTOS.h>
 #include <task.h>
 #include "gpio.hpp"
@@ -10,14 +10,13 @@ StackType_t           testTaskStack[TestStackSize];
 
 constexpr gpio::Pin SS_RELAY_PIN = gpio::Pin::B0;
 
-constexpr gpio::ConfigStruct config[]{
-    {SS_RELAY_PIN, gpio::Mode::output},
-    {gpio::Pin::END},
+constexpr std::array gpio_config{
+    gpio::ConfigStruct{SS_RELAY_PIN, gpio::Mode::output}
 };
 
 int main ()
 {
-  gpio::configure(config);
+  gpio::init(gpio_config.begin(), gpio_config.end());
 
   (void)xTaskCreateStatic (testTask, "tst", TestStackSize, nullptr, 1, testTaskStack, &testTaskBuffer);
 
