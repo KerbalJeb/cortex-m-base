@@ -19,6 +19,3 @@
 [submodule "thirdparty\\printf\\lib"]
 	path = thirdparty\\printf\\lib
 	url = https://github.com/mpaland/printf.git
-[submodule "thirdparty\\FreeRTOS\\lib"]
-	path = thirdparty\\FreeRTOS\\lib
-	url = https://github.com/FreeRTOS/FreeRTOS.git
