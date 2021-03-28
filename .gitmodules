@@ -7,15 +7,9 @@
 [submodule "thirdparty\\TinyUSB\\lib"]
 	path = thirdparty\\TinyUSB\\lib
 	url = https://github.com/hathach/tinyusb.git
-[submodule "thirdparty\\CMock\\lib"]
-	path = thirdparty\\CMock\\lib
-	url = https://github.com/ThrowTheSwitch/CMock.git
+[submodule "thirdparty\\FreeRTOS\\lib"]
+	path = thirdparty\\FreeRTOS\\lib
+	url = https://github.com/FreeRTOS/FreeRTOS.git
 [submodule "thirdparty\\CMSIS\\lib"]
 	path = thirdparty\\CMSIS\\lib
 	url = https://github.com/ARM-software/CMSIS_5.git
-[submodule "thirdparty\\memory"]
-	path = thirdparty\\memory
-	url = https://github.com/foonathan/memory.git
-[submodule "thirdparty\\printf\\lib"]
-	path = thirdparty\\printf\\lib
-	url = https://github.com/mpaland/printf.git
