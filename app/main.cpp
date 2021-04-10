@@ -1,35 +1,21 @@
 #include <array>
 #include <FreeRTOS.h>
 #include <task.h>
-#include "gpio.hpp"
-
-[[noreturn]] void testTask (void *);
-constexpr std::size_t TestStackSize = configMINIMAL_STACK_SIZE;
-StaticTask_t          testTaskBuffer;
-StackType_t           testTaskStack[TestStackSize];
-
-constexpr gpio::Pin SS_RELAY_PIN = gpio::Pin::B0;
-
-constexpr std::array gpio_config{
-    gpio::ConfigStruct{SS_RELAY_PIN, gpio::Mode::output}
-};
+#include "usb_serial.hpp"
+#include "command_line.hpp"
 
 int main ()
 {
-  gpio::init(gpio_config.begin(), gpio_config.end());
+  RCC->CR2 |= RCC_CR2_HSI48ON;
+  while (!(RCC->CR2 & RCC_CR2_HSI48RDY)){}
+  RCC->CFGR = RCC_CFGR_SW_HSI48;
+  RCC->CR &= ~RCC_CR_PLLON;
+  FLASH->ACR = FLASH_ACR_PRFTBE | 0x1;
 
-  (void)xTaskCreateStatic (testTask, "tst", TestStackSize, nullptr, 1, testTaskStack, &testTaskBuffer);
+  RCC->APB1ENR |= RCC_APB1ENR_USBEN;
 
+  command_line::init();
   vTaskStartScheduler ();
 
   return 0;
-}
-
-[[noreturn]] void testTask (void *)
-{
-  while (true)
-  {
-    gpio::toggle(SS_RELAY_PIN);
-    vTaskDelay (pdMS_TO_TICKS(1000));
-  }
 }

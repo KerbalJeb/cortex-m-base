@@ -1,24 +1,24 @@
-include(FetchContent)
-set(LIB_NAME TinyUSB)
+include (FetchContent)
+set (LIB_NAME TinyUSB)
 
-set(TINYUSB_PORT_DIR portable/st/stm32_fsdev)
-set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
-set(CONFIG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/config)
+set (TINYUSB_PORT_DIR portable/st/stm32_fsdev)
+set (SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
+set (CONFIG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/config)
 
+add_library (${LIB_NAME}
+             ${SRC_DIR}/src/class/cdc/cdc_device.c
+             ${SRC_DIR}/src/device/usbd.c
+             ${SRC_DIR}/src/device/usbd_control.c
+             ${SRC_DIR}/src/common/tusb_fifo.c
+             ${SRC_DIR}/src/tusb.c
+             ${SRC_DIR}/src/${TINYUSB_PORT_DIR}/dcd_stm32_fsdev.c
+             ${CONFIG_DIR}/usb_descriptors.c
+             )
 
-add_library(${LIB_NAME}
-        ${SRC_DIR}/src/class/cdc/cdc_device.c
-        ${SRC_DIR}/src/device/usbd.c
-        ${SRC_DIR}/src/device/usbd_control.c
-        ${SRC_DIR}/src/common/tusb_fifo.c
-        ${SRC_DIR}/src/tusb.c
-        ${SRC_DIR}/src/${TINYUSB_PORT_DIR}/dcd_stm32_fsdev.c
-)
+target_include_directories (${LIB_NAME}
+                            PUBLIC ${SRC_DIR}/src
+                            PUBLIC ${SRC_DIR}/src/${TINYUSB_PORT_DIR}
+                            PUBLIC ${CONFIG_DIR}
+                            )
 
-target_include_directories(${LIB_NAME}
-        PUBLIC ${SRC_DIR}/src
-        PUBLIC ${SRC_DIR}/src/${TINYUSB_PORT_DIR}
-        PUBLIC ${CONFIG_DIR}
-)
-
-target_link_libraries(TinyUSB FreeRTOS DeviceCMSIS CMSIS_Core)
+target_link_libraries (TinyUSB FreeRTOS DeviceCMSIS CMSIS_Core)

@@ -8,7 +8,7 @@
 #include "gmock/gmock.h"
 #include <algorithm>
 #include <vector>
-#include "mocks/stm32f0xx.h"
+#include "stm32f0xx.h"
 #include "gpio.hpp"
 
 /**********************************************************************

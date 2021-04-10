@@ -1,1 +1,2 @@
 add_subdirectory(peripheral_drivers)
+add_subdirectory(cli)

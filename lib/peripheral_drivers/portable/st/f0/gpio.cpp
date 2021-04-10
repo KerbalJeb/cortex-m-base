@@ -60,10 +60,8 @@ inline auto get_pin_idx(gpio::Pin pin)
 
 void gpio::write (gpio::Pin gpio_pin, gpio::pin_state state)
 {
-  auto pin_number  = static_cast<const uint32_t>(gpio_pin);
-  auto pin_idx     = pin_number % pins_per_port;
-  auto port_idx    = pin_number / pins_per_port;
-  auto port_config = ports[port_idx];
+  auto pin_idx    = get_pin_idx(gpio_pin);
+  auto port_config = get_port_info(gpio_pin);
   auto PORT        = port_config.port;
 
   if (state == high)
@@ -76,35 +74,33 @@ void gpio::write (gpio::Pin gpio_pin, gpio::pin_state state)
   }
 
 }
+
 gpio::pin_state gpio::read (gpio::Pin gpio_pin)
 {
-  auto pin_number  = static_cast<const uint32_t>(gpio_pin);
-  auto pin_idx     = pin_number % pins_per_port;
-  auto port_idx    = pin_number / pins_per_port;
-  auto port_config = ports[port_idx];
+  auto pin_idx    = get_pin_idx(gpio_pin);
+  auto port_config = get_port_info(gpio_pin);
   auto PORT        = port_config.port;
 
   auto idr  = volatile_load (&PORT->IDR);
   auto mask = 1 << pin_idx;
   return static_cast<gpio::pin_state>((idr & mask) >> pin_idx);
 }
+
 void gpio::toggle (gpio::Pin gpio_pin)
 {
-  auto pin_number  = static_cast<const uint32_t>(gpio_pin);
-  auto pin_idx     = pin_number % pins_per_port;
-  auto port_idx    = pin_number / pins_per_port;
-  auto port_config = ports[port_idx];
+  auto pin_idx    = get_pin_idx(gpio_pin);
+  auto port_config = get_port_info(gpio_pin);
   auto PORT        = port_config.port;
 
   auto odr = volatile_load(&PORT->ODR);
   odr ^= 1 << pin_idx;
   volatile_store(&PORT->ODR, odr);
 }
+
 void gpio::configure_pin (const gpio::ConfigStruct &config)
 {
   auto pin_idx    = get_pin_idx(config.pin);
   auto port_config = get_port_info(config.pin);
-
   auto PORT        = port_config.port;
 
   /* Enable Clock */

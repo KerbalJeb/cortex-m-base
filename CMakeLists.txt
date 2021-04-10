@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.17)
 
 
-project(ArmCortexBase C CXX ASM)
+project(ArmCortexBase)
+enable_language(C CXX ASM)
 
 
 set(CMAKE_CXX_STANDARD 20)
@@ -12,6 +13,7 @@ if (CMAKE_CROSSCOMPILING)
 add_compile_options(
         -mfloat-abi=${MFLOAT}
         -mcpu=${MCPU} -mthumb -mthumb-interwork
+        -fno-exceptions
 )
 
 add_link_options(
@@ -23,7 +25,7 @@ add_link_options(
 endif ()
 
 add_compile_options(
-        -ffunction-sections -fdata-sections -fno-common -fmessage-length=0 -fno-exceptions
+        -ffunction-sections -fdata-sections -fno-common -fmessage-length=0
         -Wall -Wno-unused-variable -Wno-unused-function
         -Og
 )
