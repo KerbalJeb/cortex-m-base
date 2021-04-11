@@ -28,3 +28,6 @@
 [submodule "lib/cli"]
 	path = lib/cli
 	url = https://github.com/KerbalJeb/hydra-hal-cli.git
+[submodule "lib/peripheral_drivers"]
+	path = lib/peripheral_drivers
+	url = https://github.com/KerbalJeb/hydra-hal-peripheral-drivers.git
