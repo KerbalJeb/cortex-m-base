@@ -1,5 +1,5 @@
-/** @file gpio.hpp
-*   @brief Created on 2021-03-24 by Ben
+/** @file flash.h
+*   @brief Created on 2021-03-22 by Ben
 */
 #pragma once
 
@@ -7,34 +7,24 @@
 * Includes
 **********************************************************************/
 
-#include <algorithm>
-#include <common.hpp>
-#include <gpio_config.hpp>
-#include <vector>
-
 /**********************************************************************
-* Constant Expressions
+* Preprocessor Constants
 **********************************************************************/
 
 /**********************************************************************
-* Types
+* Typedefs
 **********************************************************************/
-
 
 /**********************************************************************
 * Function Prototypes
 **********************************************************************/
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-namespace gpio
-{
-template<typename T> concept ConfigIter = IterFor<T, ConfigStruct>;
+void flash_write(uintptr_t address, uint16_t value);
+void flash_erase(uintptr_t address);
 
-void configure_pin (const gpio::ConfigStruct &config);
-
-void init (ConfigIter auto begin, ConfigIter auto end)
-{ std::for_each (begin, end, &configure_pin); }
-
-void write (Pin gpio_pin, pin_state state);
-void toggle (Pin gpio_pin);
-pin_state read (Pin gpio_pin);
-}
+#ifdef __cplusplus
+} // extern "C"
+#endif
