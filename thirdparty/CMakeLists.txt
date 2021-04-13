@@ -8,6 +8,7 @@ add_subdirectory(FakeFunctionFramework)
 add_subdirectory(FreeRTOS)
 add_subdirectory(ST)
 add_subdirectory(TinyUSB)
+add_subdirectory(spiffs)
 
 if (NOT CMAKE_CROSSCOMPILING)
   add_subdirectory(googletest)

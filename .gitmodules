@@ -31,3 +31,6 @@
 [submodule "lib/peripheral_drivers"]
 	path = lib/peripheral_drivers
 	url = https://github.com/KerbalJeb/hydra-hal-peripheral-drivers.git
+[submodule "thirdparty\\spiffs\\lib"]
+	path = thirdparty\\spiffs\\lib
+	url = https://github.com/pellepl/spiffs.git

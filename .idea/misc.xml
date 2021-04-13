@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeWorkspace" PROJECT_DIR="$PROJECT_DIR$" />
+  <component name="CidrRootsConfiguration">
+    <libraryRoots>
+      <file path="$PROJECT_DIR$/thirdparty/CMSIS/lib" />
+      <file path="$PROJECT_DIR$/thirdparty/FreeRTOS/lib" />
+      <file path="$PROJECT_DIR$/thirdparty/FreeRTOS/mock" />
+      <file path="$PROJECT_DIR$/thirdparty/ST/cmsis_device_f0" />
+      <file path="$PROJECT_DIR$/thirdparty/TinyUSB/lib" />
+      <file path="$PROJECT_DIR$/thirdparty/googletest" />
+    </libraryRoots>
+    <excludeRoots>
+      <file path="$PROJECT_DIR$/cmake-build-cortex-m-debug" />
+      <file path="$PROJECT_DIR$/cmake-build-pc-debug" />
+      <file path="$PROJECT_DIR$/cmake-build-pc-target-debug" />
+      <file path="$PROJECT_DIR$/cmake-external-dependencies" />
+      <file path="$PROJECT_DIR$/thirdparty/ST/stm32f0/cmake-build-cortex-m-target-debug" />
+      <file path="$PROJECT_DIR$/thirdparty/ST/stm32f0/cmake-build-pc-target-debug" />
+    </excludeRoots>
+  </component>
+</project>

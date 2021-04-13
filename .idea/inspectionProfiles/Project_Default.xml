@@ -1,0 +1,8 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="Misra" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myMisraCPPChecks" value="clion-misra-cpp2008-*,-clion-misra-cpp2008-10-3-2" />
+    </inspection_tool>
+  </profile>
+</component>

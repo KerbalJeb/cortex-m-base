@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerExplorerSettingsProvider">
+    <option name="enabled" value="false" />
+    <option name="localCompilerSettings">
+      <map>
+        <entry>
+          <key>
+            <LocalCompilerPath>
+              <option name="path" value="C:\Program Files (x86)\GNU Tools Arm Embedded\2020-q4-major\bin\arm-none-eabi-gcc.exe" />
+            </LocalCompilerPath>
+          </key>
+          <value>
+            <LocalCompilerSettings>
+              <option name="name" value="GCC" />
+              <option name="version" value="10.2.1" />
+              <option name="target" value="arm" />
+            </LocalCompilerSettings>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="initialNoticeShown" value="true" />
+  </component>
+</project>
